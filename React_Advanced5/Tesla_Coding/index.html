@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Table 1</title>
+
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <table>
+        <tr>
+            <th>region</th>
+            <th>model</th>
+            <th>sales</th>
+        </tr>
+    </table>
+
+    <script>
+        const data = [
+            { region: "US", model: "A", sales: 150 },
+            { region: "US", model: "B", sales: 120 },
+            { region: "US", model: "C", sales: 350 },
+            { region: "EU", model: "A", sales: 200 },
+            { region: "EU", model: "B", sales: 100 },
+            { region: "EU", model: "C", sales: 250 },
+            { region: "CA", model: "A", sales: 200 },
+            { region: "CA", model: "B", sales: 100 },
+            { region: "CA", model: "C", sales: 230 },
+            { region: "CA", model: "D", sales: 400 }
+        ];
+
+        const table = document.querySelector('table');
+        let us_region = 0;
+        let eu_region = 0;
+        let ca_region = 0;
+        const rows = [];
+
+        data.reverse().forEach(d => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${d.region}</td>
+                <td>${d.model}</td>
+                <td>${d.sales}</td>
+            `;
+            rows.push(tr);
+
+            if(d.region === 'US') us_region += d.sales;
+            if(d.region === 'EU') eu_region += d.sales;
+            if(d.region === 'CA') ca_region += d.sales;
+
+            if(d.model === 'A'){
+                const sumRow = document.createElement('tr');
+                sumRow.innerHTML = `
+                    <td>${d.region}</td>
+                    <td>sum</td>
+                    <td>${d.region === 'US' ? us_region : d.region === 'EU' ? eu_region : ca_region}</td>
+                `;
+                rows.push(sumRow); // HTMLTableRowElement
+            }
+        });
+
+        rows.reverse().forEach(row => table.appendChild(row));
+        
+    </script>
+</body>
+</html>

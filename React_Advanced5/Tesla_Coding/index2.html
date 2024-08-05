@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Table 2</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <span>Region Filter</span>
+    <select name="region" id="region">
+        <option value="all">all</option>
+        <option value="US">US</option>
+        <option value="EU">EU</option>
+        <option value="CA">CA</option>
+    </select>
+
+    <span>Model Filter</span>
+    <select name="model" id="model">
+        <option value="all">all</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+    </select>
+
+    <table>
+        <thead>
+            <tr>
+                <th>region</th>
+                <th>model</th>
+                <th>sales</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+    
+    <script>
+        const data = [
+            { region: "US", model: "A", sales: 150 },
+            { region: "US", model: "B", sales: 120 },
+            { region: "US", model: "C", sales: 350 },
+            { region: "EU", model: "A", sales: 200 },
+            { region: "EU", model: "B", sales: 100 },
+            { region: "EU", model: "C", sales: 250 },
+            { region: "CA", model: "A", sales: 200 },
+            { region: "CA", model: "B", sales: 100 },
+            { region: "CA", model: "C", sales: 230 },
+            { region: "CA", model: "D", sales: 400 }
+        ];
+        
+        const tbody = document.querySelector('table tbody');
+
+        function init(region = "all", model = "all"){
+            
+            tbody.innerHTML = '';
+
+            if(region === "all" && model === "all"){
+                data.map(d => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${d.region}</td>
+                        <td>${d.model}</td>
+                        <td>${d.sales}</td>
+                    `
+                    tbody.appendChild(tr);
+                });
+            }else if(region !== "all" && model !== 'all'){
+                data.filter(d => d.region === region).filter(d => d.model === model).map(d => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${d.region}</td>
+                        <td>${d.model}</td>
+                        <td>${d.sales}</td>
+                    `
+                    tbody.appendChild(tr);
+                });
+            }else if(model !== 'all'){
+                data.filter(d => d.model === model).map(d => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${d.region}</td>
+                        <td>${d.model}</td>
+                        <td>${d.sales}</td>
+                    `
+                    tbody.appendChild(tr);
+                })
+            }else if(region !== 'all'){
+                data.filter(d => d.region === region).map(d => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${d.region}</td>
+                        <td>${d.model}</td>
+                        <td>${d.sales}</td>
+                    `
+                    tbody.appendChild(tr);
+                })
+            }
+        }
+        init();
+
+        document.getElementById('region').addEventListener('change', function() {
+            const region = this.value;
+            const model = document.getElementById('model').value;
+            init(region, model);
+        });
+        document.getElementById('model').addEventListener('change', function(){
+            const region = document.getElementById('region').value;
+            const model = this.value;
+            init(region, model);
+        })
+
+    </script>
+</body>
+</html>
